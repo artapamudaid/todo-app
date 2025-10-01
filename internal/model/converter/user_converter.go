@@ -6,18 +6,21 @@ import (
 )
 
 func UserToResponse(user *entity.User) *model.UserResponse {
+
 	return &model.UserResponse{
-		ID:        user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		ID:            user.ID,
+		Email:         user.Email,
+		Name:          user.Name,
+		RoleId:        user.RoleId,
+		DepartementId: user.DepartementId,
+		IsActive:      user.IsActive,
 	}
 }
 
-func UserToTokenResponse(user *entity.User) *model.UserResponse {
+func UserToTokenResponse(user *entity.User, expiresIn int64) *model.UserResponse {
 	return &model.UserResponse{
-		Token: user.Token,
+		Token:     user.Token,
+		ExpiresIn: expiresIn,
 	}
 }
 

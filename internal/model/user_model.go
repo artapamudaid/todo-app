@@ -1,13 +1,14 @@
 package model
 
 type UserResponse struct {
-	ID        string `json:"id,omitempty"`
-	Email     string `json:"email,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Token     string `json:"token,omitempty"`
-	ExpiresIn int64  `json:"expires_in,omitempty"`
-	CreatedAt int64  `json:"created_at,omitempty"`
-	UpdatedAt int64  `json:"updated_at,omitempty"`
+	ID            string `json:"id,omitempty"`
+	Email         string `json:"email,omitempty"`
+	Name          string `json:"name,omitempty"`
+	RoleId        string `json:"role_id,omitempty"`
+	DepartementId string `json:"department_id,omitempty"`
+	IsActive      bool   `json:"is_active,omitempty"`
+	Token         string `json:"token,omitempty"`
+	ExpiresIn     int64  `json:"expires_in,omitempty"`
 }
 
 type VerifyUserRequest struct {

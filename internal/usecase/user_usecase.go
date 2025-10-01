@@ -23,6 +23,7 @@ type UserUseCase struct {
 	Validate       *validator.Validate
 	UserRepository *repository.UserRepository
 	UserProducer   *messaging.UserProducer
+	JWTHelper      *helper.JWTClaims
 }
 
 func NewUserUseCase(db *gorm.DB, logger *logrus.Logger, validate *validator.Validate,
@@ -141,7 +142,7 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 	}
 
 	// Generate Access Token (JWT 24 jam)
-	accessToken, err := helper.GenerateToken(user.ID, user.Email)
+	accessToken, expiresIn, err := helper.GenerateToken(user.ID, user.Email, user.RoleId, user.DepartementId, user.IsActive)
 	if err != nil {
 		c.Log.Warnf("Failed to generate JWT access token : %+v", err)
 		return nil, fiber.ErrInternalServerError
@@ -174,16 +175,7 @@ func (c *UserUseCase) Login(ctx context.Context, request *model.LoginUserRequest
 		c.Log.Info("Kafka producer is disabled, skipping user login event")
 	}
 
-	expiresIn := int64(helper.JWT_EXPIRATION_HOURS * 3600)
-
-	// Return user + token ke client
-	return &model.UserResponse{
-		ID:        user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		Token:     accessToken,
-		ExpiresIn: expiresIn, // dalam detik
-	}, nil
+	return converter.UserToTokenResponse(user, expiresIn), nil
 }
 
 func (c *UserUseCase) Current(ctx context.Context, request *model.GetUserRequest) (*model.UserResponse, error) {
@@ -225,7 +217,7 @@ func (c *UserUseCase) Refresh(ctx context.Context, refreshToken string) (*model.
 	}
 
 	// Generate access token baru (expire 24 jam)
-	accessToken, err := helper.GenerateToken(user.ID, user.Email)
+	accessToken, expiresIn, err := helper.GenerateToken(user.ID, user.Email, user.RoleId, user.DepartementId, user.IsActive)
 	if err != nil {
 		c.Log.Errorf("Failed generate new JWT : %+v", err)
 		return nil, fiber.ErrInternalServerError
@@ -252,16 +244,8 @@ func (c *UserUseCase) Refresh(ctx context.Context, refreshToken string) (*model.
 		}
 	}
 
-	expiresIn := int64(helper.JWT_EXPIRATION_HOURS * 3600)
-
 	// Return token baru
-	return &model.UserResponse{
-		ID:        user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		Token:     accessToken,
-		ExpiresIn: expiresIn,
-	}, nil
+	return converter.UserToTokenResponse(user, expiresIn), nil
 }
 
 func (c *UserUseCase) Logout(ctx context.Context, request *model.LogoutUserRequest) (bool, error) {

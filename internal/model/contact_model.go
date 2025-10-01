@@ -1,13 +1,16 @@
 package model
 
+import "time"
+
 type ContactResponse struct {
 	ID        string            `json:"id"`
 	FirstName string            `json:"first_name"`
 	LastName  string            `json:"last_name"`
 	Email     string            `json:"email"`
 	Phone     string            `json:"phone"`
-	CreatedAt int64             `json:"created_at"`
-	UpdatedAt int64             `json:"updated_at"`
+	CreatedAt time.Time         `json:"created_at"`
+	UpdatedAt time.Time         `json:"updated_at"`
+	DeletedAt time.Time         `json:"deleted_at"`
 	Addresses []AddressResponse `json:"addresses,omitempty"`
 }
 

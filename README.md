@@ -2,7 +2,7 @@
 
 ## Description
 
-This is golang clean architecture template. I have modified it by myself.
+ Golang Todo App using auth multi user, multi role, multi projects, multi board and PostgreSQL as database
 
 ## Architecture
 

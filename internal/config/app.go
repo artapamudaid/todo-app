@@ -4,7 +4,6 @@ import (
 	"todo-app/internal/delivery/http"
 	"todo-app/internal/delivery/http/middleware"
 	"todo-app/internal/delivery/http/route"
-	"todo-app/internal/gateway/messaging"
 	"todo-app/internal/repository"
 	"todo-app/internal/usecase"
 
@@ -31,21 +30,10 @@ func Bootstrap(config *BootstrapConfig) {
 	contactRepository := repository.NewContactRepository(config.Log)
 	addressRepository := repository.NewAddressRepository(config.Log)
 
-	// setup producer
-	var userProducer *messaging.UserProducer
-	var contactProducer *messaging.ContactProducer
-	var addressProducer *messaging.AddressProducer
-
-	if config.Producer != nil {
-		userProducer = messaging.NewUserProducer(config.Producer, config.Log)
-		contactProducer = messaging.NewContactProducer(config.Producer, config.Log)
-		addressProducer = messaging.NewAddressProducer(config.Producer, config.Log)
-	}
-
 	// setup use cases
-	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository, userProducer)
-	contactUseCase := usecase.NewContactUseCase(config.DB, config.Log, config.Validate, contactRepository, contactProducer)
-	addressUseCase := usecase.NewAddressUseCase(config.DB, config.Log, config.Validate, contactRepository, addressRepository, addressProducer)
+	userUseCase := usecase.NewUserUseCase(config.DB, config.Log, config.Validate, userRepository)
+	contactUseCase := usecase.NewContactUseCase(config.DB, config.Log, config.Validate, contactRepository)
+	addressUseCase := usecase.NewAddressUseCase(config.DB, config.Log, config.Validate, contactRepository, addressRepository)
 
 	// setup controller
 	userController := http.NewUserController(userUseCase, config.Log)

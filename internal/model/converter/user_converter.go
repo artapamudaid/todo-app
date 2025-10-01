@@ -23,13 +23,3 @@ func UserToTokenResponse(user *entity.User, expiresIn int64) *model.UserResponse
 		ExpiresIn: expiresIn,
 	}
 }
-
-func UserToEvent(user *entity.User) *model.UserEvent {
-	return &model.UserEvent{
-		ID:        user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
-	}
-}

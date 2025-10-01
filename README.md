@@ -24,7 +24,6 @@
 
 - Golang : https://github.com/golang/go
 - Posgresql (Database) : https://github.com/postgres/postgres
-- Apache Kafka : https://github.com/apache/kafka
 
 ## Framework & Library
 
@@ -34,7 +33,6 @@
 - Golang Migrate (Database Migration) : https://github.com/golang-migrate/migrate
 - Go Playground Validator (Validation) : https://github.com/go-playground/validator
 - Logrus (Logger) : https://github.com/sirupsen/logrus
-- Sarama (Kafka Client) : https://github.com/IBM/sarama
 - JWT (JWT Auth) : github.com/golang-jwt/jwt/v5
 - Google UUID : github.com/google/uuid
 - Go postgres driver for Go's database/sql package : https://github.com/lib/pq

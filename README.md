@@ -44,10 +44,6 @@ This is golang clean architecture template. I have modified it by myself.
 All configuration is in `.env` file.
 Copy `.env-example` to `.env` or you can rename `.env-example` directly to `.env`
 
-## API Spec
-
-All API Spec is in `api` folder.
-
 ## Database Migration
 
 All database migration is in `db/migrations` folder.
@@ -61,8 +57,16 @@ migrate create -ext sql -dir db/migrations create_table_xxx
 ### Run Migration
 
 ```shell
-migrate -database "postgres://developer:%23WebDev25@localhost:5432/todo_app?sslmode=disable" -path db/migrations up
+migrate -database "postgres://username:password@localhost:5432/database?sslmode=disable" -path db/migrations up
 ```
+
+## Database Seeder
+
+All database seeder is in `internal/seed` folder.
+
+### Seeder Configuration
+
+Seeder configuration is in `cmd/seed/main.go` folder.
 
 ### Run Seeder
 

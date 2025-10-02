@@ -7,11 +7,10 @@ import (
 )
 
 type RouteConfig struct {
-	App               *fiber.App
-	UserController    *http.UserController
-	ContactController *http.ContactController
-	AddressController *http.AddressController
-	AuthMiddleware    fiber.Handler
+	App            *fiber.App
+	UserController *http.UserController
+	RoleController *http.RoleController
+	AuthMiddleware fiber.Handler
 }
 
 func (c *RouteConfig) Setup() {
@@ -31,15 +30,13 @@ func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Get("/api/profile", c.UserController.Current)
 	c.App.Post("/api/auth/refresh", c.UserController.Refresh)
 
-	c.App.Get("/api/contacts", c.ContactController.List)
-	c.App.Post("/api/contacts", c.ContactController.Create)
-	c.App.Put("/api/contacts/:contactId", c.ContactController.Update)
-	c.App.Get("/api/contacts/:contactId", c.ContactController.Get)
-	c.App.Delete("/api/contacts/:contactId", c.ContactController.Delete)
+	c.App.Get("/api/roles", c.RoleController.List)
+	c.App.Post("/api/roles", c.RoleController.Create)
+	c.App.Put("/api/roles/update/:roleId", c.RoleController.Update)
+	c.App.Get("/api/roles/view/:roleId", c.RoleController.Get)
+	c.App.Put("/api/roles/delete/:roleId", c.RoleController.SoftDelete)
+	c.App.Get("/api/roles/trash", c.RoleController.RecycleBin)
+	c.App.Put("/api/roles/restore/:roleId", c.RoleController.Restore)
+	c.App.Delete("/api/roles/force/:roleId", c.RoleController.ForceDelete)
 
-	c.App.Get("/api/contacts/:contactId/addresses", c.AddressController.List)
-	c.App.Post("/api/contacts/:contactId/addresses", c.AddressController.Create)
-	c.App.Put("/api/contacts/:contactId/addresses/:addressId", c.AddressController.Update)
-	c.App.Get("/api/contacts/:contactId/addresses/:addressId", c.AddressController.Get)
-	c.App.Delete("/api/contacts/:contactId/addresses/:addressId", c.AddressController.Delete)
 }

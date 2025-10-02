@@ -19,7 +19,6 @@ type User struct {
 	CreatedAt     time.Time      `gorm:"column:created_at;autoCreateTime"`
 	UpdatedAt     time.Time      `gorm:"column:updated_at;autoCreateTime;autoUpdateTime"`
 	DeletedAt     gorm.DeletedAt `gorm:"column:deleted_at;index"`
-	// Contacts  []Contact `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (u *User) TableName() string {

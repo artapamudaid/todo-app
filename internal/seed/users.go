@@ -27,11 +27,11 @@ func SeedUsers(db *sql.DB) error {
 	}
 
 	// Hash password
-	hashedPassword, _ := helper.HashPassword("password123")
+	hashedPassword, _ := helper.HashPassword("adminpass25")
 
 	// Data user
 	id := uuid.NewString()
-	name := "Super Admin"
+	name := "Admin"
 	email := "admin@todo.app"
 	isActive := true
 	createdAt := time.Now()

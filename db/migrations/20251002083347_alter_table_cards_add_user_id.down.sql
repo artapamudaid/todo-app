@@ -1,0 +1,3 @@
+ALTER TABLE cards
+		DROP CONSTRAINT IF EXISTS fk_cards_user,
+		DROP COLUMN IF EXISTS user_id;
